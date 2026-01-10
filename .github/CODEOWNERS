@@ -1,0 +1,12 @@
+# Default owners for everything in the repo
+* @vivil
+
+# Documentation
+*.md @vivil
+docs/ @vivil
+
+# Core source code
+src/ @vivil
+
+# CI/CD configuration
+.github/ @vivil
