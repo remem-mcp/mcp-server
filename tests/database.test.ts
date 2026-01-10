@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 
 import { RememDatabase } from "../src/database.js";
+import { formatLocalDate } from "../src/utils.js";
 
 describe("RememDatabase", () => {
   let db: RememDatabase;
@@ -31,8 +32,8 @@ describe("RememDatabase", () => {
       await db.insertActivity("work", "Implemented feature X");
       await db.insertActivity("decision", "Chose React over Vue");
 
-      // SQLite stores timestamps in UTC
-      const today = new Date().toISOString().split("T")[0];
+      // Use local date to match database storage
+      const today = formatLocalDate();
       const activities = await db.getActivitiesByDate(today);
 
       expect(activities).toHaveLength(2);
@@ -53,7 +54,7 @@ describe("RememDatabase", () => {
       const deleted = await db.cleanupOldActivities(1);
       expect(deleted).toBe(0);
 
-      const today = new Date().toISOString().split("T")[0];
+      const today = formatLocalDate();
       const activities = await db.getActivitiesByDate(today);
       expect(activities).toHaveLength(1);
     });

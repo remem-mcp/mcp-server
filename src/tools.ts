@@ -118,15 +118,16 @@ export function registerTools(server: McpServer, db: RememDatabase, t: TFunction
     {
       description: "Retrieve past summaries for long-term reflection",
       inputSchema: {
-        months: z.number().int().min(1).max(24).default(6).describe("Number of months to look back"),
+        months: z.number().int().min(1).max(24).optional().describe("Number of months to look back (default: 6)"),
       },
     },
     async ({ months }) => {
-      const history = await db.getSummariesByMonths(months);
+      const lookbackMonths = months ?? 6;
+      const history = await db.getSummariesByMonths(lookbackMonths);
 
       if (history.length === 0) {
         return {
-          content: [{ type: "text", text: t("history.noSummaries", { months }) }],
+          content: [{ type: "text", text: t("history.noSummaries", { months: lookbackMonths }) }],
         };
       }
 
@@ -134,7 +135,7 @@ export function registerTools(server: McpServer, db: RememDatabase, t: TFunction
         content: [
           {
             type: "text",
-            text: `${t("history.title", { count: history.length, months })}\n${JSON.stringify(history, null, 2)}`,
+            text: `${t("history.title", { count: history.length, months: lookbackMonths })}\n${JSON.stringify(history, null, 2)}`,
           },
         ],
       };
