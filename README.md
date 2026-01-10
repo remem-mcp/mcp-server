@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/remem-mcp/mcp-server/main/assets/logo.svg" alt="Remem Logo" width="120" />
+<img src="https://raw.githubusercontent.com/remem-mcp/mcp-server/refs/heads/main/assets/logo.svg" alt="Remem Logo" width="120" />
 
 # Remem
 
