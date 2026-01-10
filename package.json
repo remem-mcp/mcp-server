@@ -12,7 +12,8 @@
     "url": "https://github.com/remem-mcp/mcp-server"
   },
   "files": [
-    "build",
+    "build/**/*.js",
+    "build/**/*.json",
     "README.md"
   ],
   "scripts": {
