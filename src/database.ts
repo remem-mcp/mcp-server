@@ -14,6 +14,7 @@ import type {
   DailySummary,
   Database,
 } from "./schema.js";
+import { formatLocalTimestamp } from "./utils.js";
 
 /** Default data directory */
 const USER_DATA_PATH = join(os.homedir(), ".remem");
@@ -96,21 +97,9 @@ export class RememDatabase {
 
   // --- Activities ---
 
-  /** Get local timestamp in YYYY-MM-DD HH:MM:SS format */
-  private getLocalTimestamp(): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const day = String(now.getDate()).padStart(2, "0");
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-
   /** Insert a new activity with local timestamp */
   async insertActivity(type: string, content: string): Promise<void> {
-    const localTimestamp = this.getLocalTimestamp();
+    const localTimestamp = formatLocalTimestamp();
     await this.db
       .insertInto("activities")
       .values({ type, content, ts: localTimestamp })
