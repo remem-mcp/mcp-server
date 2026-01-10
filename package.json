@@ -1,11 +1,15 @@
 {
   "name": "@remem/mcp-server",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An MCP server for logging daily activities, generating reports, and long-term reflection.",
   "type": "module",
   "main": "./build/index.js",
   "bin": {
     "remem": "build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remem-mcp/mcp-server"
   },
   "files": [
     "build",
