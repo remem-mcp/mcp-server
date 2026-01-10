@@ -97,7 +97,16 @@ export class RememDatabase {
 
   // --- Activities ---
 
-  /** Insert a new activity with local timestamp */
+  /**
+   * Insert a new activity with local timestamp.
+   *
+   * The `ts` field is explicitly set to local time (YYYY-MM-DD HH:MM:SS format)
+   * rather than using the database's default CURRENT_TIMESTAMP (which is UTC).
+   * This ensures date-based queries using `date(ts)` work correctly in the user's timezone.
+   *
+   * @param type - Activity type: 'work', 'decision', 'memo', or 'approval'
+   * @param content - The activity content to log
+   */
   async insertActivity(type: string, content: string): Promise<void> {
     const localTimestamp = formatLocalTimestamp();
     await this.db
@@ -106,7 +115,12 @@ export class RememDatabase {
       .execute();
   }
 
-  /** Get activities for a specific date (using local time) */
+  /**
+   * Get activities for a specific date.
+   *
+   * @param date - Date string in YYYY-MM-DD format (local timezone)
+   * @returns Activities recorded on the specified date, ordered by timestamp
+   */
   async getActivitiesByDate(date: string): Promise<Activity[]> {
     return await this.db
       .selectFrom("activities")
