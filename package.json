@@ -1,6 +1,6 @@
 {
   "name": "@remem/mcp-server",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "An MCP server for logging daily activities, generating reports, and long-term reflection.",
   "type": "module",
   "main": "./build/index.js",
