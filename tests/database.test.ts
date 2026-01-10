@@ -26,13 +26,22 @@ describe("RememDatabase", () => {
     }
   });
 
+  /** Get today's date in local timezone as YYYY-MM-DD */
+  function getLocalToday(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   describe("Activities", () => {
     it("should insert and retrieve activities", async () => {
       await db.insertActivity("work", "Implemented feature X");
       await db.insertActivity("decision", "Chose React over Vue");
 
-      // SQLite stores timestamps in UTC
-      const today = new Date().toISOString().split("T")[0];
+      // Use local date to match database storage
+      const today = getLocalToday();
       const activities = await db.getActivitiesByDate(today);
 
       expect(activities).toHaveLength(2);
@@ -53,7 +62,7 @@ describe("RememDatabase", () => {
       const deleted = await db.cleanupOldActivities(1);
       expect(deleted).toBe(0);
 
-      const today = new Date().toISOString().split("T")[0];
+      const today = getLocalToday();
       const activities = await db.getActivitiesByDate(today);
       expect(activities).toHaveLength(1);
     });

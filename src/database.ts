@@ -13,7 +13,6 @@ import type {
   ConfigKey,
   DailySummary,
   Database,
-  NewActivity,
 } from "./schema.js";
 
 /** Default data directory */
@@ -97,13 +96,28 @@ export class RememDatabase {
 
   // --- Activities ---
 
-  /** Insert a new activity */
-  async insertActivity(type: string, content: string): Promise<void> {
-    const newActivity: NewActivity = { type, content };
-    await this.db.insertInto("activities").values(newActivity).execute();
+  /** Get local timestamp in YYYY-MM-DD HH:MM:SS format */
+  private getLocalTimestamp(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 
-  /** Get activities for a specific date */
+  /** Insert a new activity with local timestamp */
+  async insertActivity(type: string, content: string): Promise<void> {
+    const localTimestamp = this.getLocalTimestamp();
+    await this.db
+      .insertInto("activities")
+      .values({ type, content, ts: localTimestamp })
+      .execute();
+  }
+
+  /** Get activities for a specific date (using local time) */
   async getActivitiesByDate(date: string): Promise<Activity[]> {
     return await this.db
       .selectFrom("activities")
