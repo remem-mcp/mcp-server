@@ -13,6 +13,8 @@ vitest.config.ts
 *.log
 .DS_Store
 coverage/
+*.map
+*.d.ts
 *.db
 *.db-journal
 *.db-wal
