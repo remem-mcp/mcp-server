@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/logo.svg" alt="Remem Logo" width="120" />
+<img src="https://raw.githubusercontent.com/remem-mcp/mcp-server/main/assets/logo.svg" alt="Remem Logo" width="120" />
 
 # Remem
 
@@ -10,7 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-24%2B-green.svg)](https://nodejs.org/)
 
-[日本語](./README.ja.md)
+[日本語](https://github.com/remem-mcp/mcp-server/blob/main/README.ja.md)
 
 </div>
 

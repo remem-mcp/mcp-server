@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./build/index.js",
   "bin": {
-    "remem": "./build/index.js"
+    "remem": "build/index.js"
   },
   "files": [
     "build",
