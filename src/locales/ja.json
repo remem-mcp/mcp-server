@@ -1,0 +1,33 @@
+{
+  "log": {
+    "success": "✅ 記録完了 ({{type}})"
+  },
+  "summary": {
+    "saved": "💾 保存しました。"
+  },
+  "config": {
+    "updated": "⚙️ 設定を更新しました: {{key}} = {{value}}",
+    "invalidRetention": "❌ retention_days は 1〜365 の数値で指定してください",
+    "current": "## 現在の設定",
+    "retentionDays": "保存日数",
+    "defaultTemplate": "デフォルトテンプレート"
+  },
+  "report": {
+    "noLogs": "📭 該当するログが見つかりませんでした。",
+    "cleanedUp": "(🧹 {{count}} 件の古いログを削除しました)",
+    "date": "日付: {{date}}",
+    "title": "## {{date}} のレポートデータ",
+    "logsHeader": "### ログ ({{count}} 件)",
+    "templateHeader": "### テンプレート",
+    "languageHeader": "### 出力言語: {{language}}",
+    "existingSummaryHeader": "### 既存の要約",
+    "instructionsHeader": "### 追加の指示"
+  },
+  "history": {
+    "noSummaries": "過去 {{months}} ヶ月分の要約が見つかりません。save_summary で日報を保存してください。",
+    "title": "## 要約履歴 ({{months}} ヶ月間で {{count}} 日分)"
+  },
+  "language": {
+    "name": "日本語"
+  }
+}

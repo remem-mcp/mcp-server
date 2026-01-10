@@ -1,0 +1,33 @@
+{
+  "log": {
+    "success": "✅ Logged ({{type}})"
+  },
+  "summary": {
+    "saved": "💾 Summary saved."
+  },
+  "config": {
+    "updated": "⚙️ Config updated: {{key}} = {{value}}",
+    "invalidRetention": "❌ retention_days must be a number between 1 and 365",
+    "current": "## Current Configuration",
+    "retentionDays": "retention_days",
+    "defaultTemplate": "default_template"
+  },
+  "report": {
+    "noLogs": "📭 No logs found for the specified date.",
+    "cleanedUp": "(🧹 Cleaned up {{count}} old log entries)",
+    "date": "Date: {{date}}",
+    "title": "## Report Data for {{date}}",
+    "logsHeader": "### Logs ({{count}} entries)",
+    "templateHeader": "### Template",
+    "languageHeader": "### Target Language: {{language}}",
+    "existingSummaryHeader": "### Existing Summary",
+    "instructionsHeader": "### Additional Instructions"
+  },
+  "history": {
+    "noSummaries": "No summaries found for the past {{months}} month(s). Use save_summary to persist daily reports.",
+    "title": "## Summary History ({{count}} days over {{months}} months)"
+  },
+  "language": {
+    "name": "English"
+  }
+}

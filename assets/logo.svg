@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- 時計の枠のグラデーション -->
+    <linearGradient id="clockRing" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a3a3a"/>
+      <stop offset="50%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#2a2a2a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 外側の黒い時計の円 -->
+  <circle cx="64" cy="64" r="62" fill="url(#clockRing)"/>
+  
+  <!-- 内側の白い文字盤 -->
+  <circle cx="64" cy="64" r="52" fill="#ffffff"/>
+  
+  <!-- 時計の目盛り（12個） -->
+  <g stroke="#1a1a1a" stroke-width="2" stroke-linecap="round">
+    <!-- 12時 -->
+    <line x1="64" y1="16" x2="64" y2="22"/>
+    <!-- 1時 -->
+    <line x1="88" y1="22" x2="85" y2="27"/>
+    <!-- 2時 -->
+    <line x1="106" y1="40" x2="100" y2="43"/>
+    <!-- 3時 -->
+    <line x1="112" y1="64" x2="106" y2="64"/>
+    <!-- 4時 -->
+    <line x1="106" y1="88" x2="100" y2="85"/>
+    <!-- 5時 -->
+    <line x1="88" y1="106" x2="85" y2="101"/>
+    <!-- 6時 -->
+    <line x1="64" y1="112" x2="64" y2="106"/>
+    <!-- 7時 -->
+    <line x1="40" y1="106" x2="43" y2="101"/>
+    <!-- 8時 -->
+    <line x1="22" y1="88" x2="28" y2="85"/>
+    <!-- 9時 -->
+    <line x1="16" y1="64" x2="22" y2="64"/>
+    <!-- 10時 -->
+    <line x1="22" y1="40" x2="28" y2="43"/>
+    <!-- 11時 -->
+    <line x1="40" y1="22" x2="43" y2="27"/>
+  </g>
+  
+  <!-- R の文字（中央に配置・黒） -->
+  <path 
+    d="M 42 32 
+       L 42 96 
+       L 54 96 
+       L 54 70 
+       L 62 70 
+       L 80 96 
+       L 94 96 
+       L 74 68 
+       C 84 65 90 56 90 48 
+       C 90 36 78 32 64 32 
+       L 42 32 
+       Z 
+       M 54 42 
+       L 62 42 
+       C 72 42 78 45 78 50 
+       C 78 55 72 58 62 58 
+       L 54 58 
+       L 54 42 
+       Z"
+    fill="#1a1a1a"
+  />
+  
+  <!-- 時計の針 - 分針 10:24の24分位置（白縁取り付き） -->
+  <!-- 24分 = 144度 -->
+  <line 
+    x1="64" y1="64" 
+    x2="85" y2="91" 
+    stroke="#ffffff" 
+    stroke-width="6" 
+    stroke-linecap="round"
+  />
+  <line 
+    x1="64" y1="64" 
+    x2="85" y2="91" 
+    stroke="#1a1a1a" 
+    stroke-width="3" 
+    stroke-linecap="round"
+  />
+  
+  <!-- 時計の針 - 時針 10:25の10時位置（白縁取り付き） -->
+  <line 
+    x1="64" y1="64" 
+    x2="46" y2="44" 
+    stroke="#ffffff" 
+    stroke-width="7" 
+    stroke-linecap="round"
+  />
+  <line 
+    x1="64" y1="64" 
+    x2="46" y2="44" 
+    stroke="#1a1a1a" 
+    stroke-width="4" 
+    stroke-linecap="round"
+  />
+  
+  <!-- 中心のキャップ -->
+  <circle cx="64" cy="64" r="6" fill="#ffffff"/>
+  <circle cx="64" cy="64" r="4" fill="#1a1a1a"/>
+</svg>

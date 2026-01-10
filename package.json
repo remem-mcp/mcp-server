@@ -1,0 +1,53 @@
+{
+  "name": "@remem/mcp-server",
+  "version": "0.0.1",
+  "description": "An MCP server for logging daily activities, generating reports, and long-term reflection.",
+  "type": "module",
+  "main": "./build/index.js",
+  "bin": {
+    "remem": "./build/index.js"
+  },
+  "files": [
+    "build",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node build/index.js",
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "sqlite",
+    "productivity",
+    "log",
+    "daily-report"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "better-sqlite3": "^12.6.0",
+    "i18next": "^25.7.4",
+    "kysely": "^0.28.9",
+    "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.0.5",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0",
+    "vitest": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

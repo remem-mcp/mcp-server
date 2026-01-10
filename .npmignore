@@ -1,0 +1,22 @@
+# Source files (TypeScript)
+src/
+tests/
+
+# Config files
+tsconfig.json
+tsconfig.eslint.json
+eslint.config.js
+vitest.config.ts
+.github/
+
+# Development files
+*.log
+.DS_Store
+coverage/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Assets (logo is only for README display via GitHub)
+assets/
