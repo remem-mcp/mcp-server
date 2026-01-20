@@ -125,7 +125,7 @@ export class RememDatabase {
     return await this.db
       .selectFrom("activities")
       .selectAll()
-      .where(sql`date(ts)`, "=", date)
+      .where(sql`date(ts, 'localtime')`, "=", date)
       .orderBy("ts", "asc")
       .execute();
   }
@@ -134,9 +134,7 @@ export class RememDatabase {
   async cleanupOldActivities(retentionDays: number): Promise<number> {
     const result = await this.db
       .deleteFrom("activities")
-      .where(
-        sql<boolean>`ts < datetime('now', '-' || ${retentionDays} || ' days')`
-      )
+      .where(sql<boolean>`datetime(ts, 'localtime') < datetime('now', '-' || ${retentionDays} || ' days', 'localtime')`)
       .executeTakeFirst();
     return Number(result.numDeletedRows);
   }
