@@ -24,7 +24,7 @@ describe('history timezone handling', () => {
     }
   });
 
-  it("fails when an activity stored as UTC for JST 03:00 isn't found for that local date", async () => {
+  it("retrieves activity stored as UTC for JST 03:00 when queried by local date", async () => {
     // Arrange: the activity actually occurred at 2026-01-21 03:00:00 JST.
     // If stored as UTC it will be '2026-01-20 18:00:00'.
     const tsUtcForJst0300 = '2026-01-20 18:00:00'; // UTC representation of 2026-01-21 03:00:00 JST
