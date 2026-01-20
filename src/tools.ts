@@ -8,6 +8,7 @@ import { z } from "zod";
 
 import type { RememDatabase } from "./database.js";
 import type { ConfigKey } from "./schema.js";
+import { formatLocalDate } from "./utils.js";
 
 /** Activity type enum for validation */
 const ActivityTypeSchema = z.enum(["work", "decision", "memo", "approval"]);
@@ -20,7 +21,7 @@ const DateSchema = z
 
 /** Get today's date in YYYY-MM-DD */
 function getToday(): string {
-  return new Date().toISOString().split("T")[0];
+  return formatLocalDate();
 }
 
 /**
