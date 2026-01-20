@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { RememDatabase } from '../src/database.js';
+import { sql } from 'kysely';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { rmSync } from 'node:fs';
@@ -32,10 +33,19 @@ describe('history timezone handling', () => {
     // @ts-expect-error access private field for test
     await db['db'].insertInto('activities').values({ type: 'work', content: 'utc-for-jst-0300', ts: tsUtcForJst0300 }).execute();
 
-    // Act: query by local date 2026-01-21 (JST)
-    const activities = await db.getActivitiesByDate('2026-01-21');
+    // Act: raw SQL using date(ts) WITHOUT 'localtime' should miss the entry
+    // @ts-expect-error access private field for test
+    const raw = await db['db']
+      .selectFrom('activities')
+      .selectAll()
+      .where(sql`date(ts)`, '=', '2026-01-21')
+      .execute();
 
-    // Assert: we expect to find the activity when the system correctly interprets stored UTC timestamps
+    // raw result should be empty because date(ts) treats ts as UTC here
+    expect(raw.length).toBe(0);
+
+    // Also check the public helper which should use localtime-aware query and find the entry
+    const activities = await db.getActivitiesByDate('2026-01-21');
     expect(activities.length).toBeGreaterThan(0);
   });
 });

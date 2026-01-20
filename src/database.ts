@@ -155,9 +155,7 @@ export class RememDatabase {
     return await this.db
       .selectFrom("daily_summaries")
       .selectAll()
-      .where(
-        sql<boolean>`date >= date('now', '-' || ${months} || ' months')`
-      )
+      .where(sql<boolean>`date >= date('now', '-' || ${months} || ' months', 'localtime')`)
       .orderBy("date", "asc")
       .execute();
   }
