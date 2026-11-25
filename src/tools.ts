@@ -13,10 +13,22 @@ import { formatLocalDate } from "./utils.js";
 /** Activity type enum for validation */
 const ActivityTypeSchema = z.enum(["work", "decision", "memo", "approval"]);
 
+/** Check that a YYYY-MM-DD string is a real calendar date (rejects e.g. 2026-13-45) */
+function isValidCalendarDate(value: string): boolean {
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+}
+
 /** Date string in YYYY-MM-DD format */
 const DateSchema = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
+  .refine(isValidCalendarDate, "Date must be a valid calendar date")
   .describe("Date in YYYY-MM-DD format");
 
 /** Get today's date in YYYY-MM-DD */
@@ -154,19 +166,24 @@ export function registerTools(server: McpServer, db: RememDatabase, t: TFunction
       },
     },
     async ({ key, value }) => {
-      // Validate retention_days is a positive integer
+      let normalizedValue = value;
+
+      // Validate retention_days is an integer between 1 and 365
       if (key === "retention_days") {
-        const days = Number.parseInt(value, 10);
-        if (Number.isNaN(days) || days < 1 || days > 365) {
+        const trimmed = value.trim();
+        const days = Number(trimmed);
+        if (!/^\d+$/.test(trimmed) || days < 1 || days > 365) {
           return {
+            isError: true,
             content: [{ type: "text", text: t("config.invalidRetention") }],
           };
         }
+        normalizedValue = String(days);
       }
 
-      await db.setConfig(key as ConfigKey, value);
+      await db.setConfig(key as ConfigKey, normalizedValue);
       return {
-        content: [{ type: "text", text: t("config.updated", { key, value }) }],
+        content: [{ type: "text", text: t("config.updated", { key, value: normalizedValue }) }],
       };
     }
   );

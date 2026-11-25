@@ -1,16 +1,22 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { RememDatabase } from '../src/database.js';
-import { sql } from 'kysely';
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { rmSync } from 'node:fs';
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
-describe('history timezone handling', () => {
+import { RememDatabase } from "../src/database.js";
+import { formatLocalTimestamp } from "../src/utils.js";
+
+describe("local time handling", () => {
   let dbPath: string;
   let db: RememDatabase;
 
+  /** Insert an activity with an exact `ts` value (stored as local time, like insertActivity) */
+  async function insertAt(ts: string, content: string): Promise<void> {
+    await db["db"].insertInto("activities").values({ type: "work", content, ts }).execute();
+  }
+
   beforeEach(async () => {
-    dbPath = join(tmpdir(), `remem-test-${Date.now()}`);
+    dbPath = join(tmpdir(), `remem-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     db = new RememDatabase(dbPath);
     await db.initialize();
   });
@@ -19,33 +25,34 @@ describe('history timezone handling', () => {
     await db.close();
     try {
       rmSync(dbPath, { recursive: true, force: true });
-    } catch (_e) {
-      // ignore
+    } catch {
+      // Ignore cleanup errors
     }
   });
 
-  it("retrieves activity stored as UTC for JST 03:00 when queried by local date", async () => {
-    // Arrange: the activity actually occurred at 2026-01-21 03:00:00 JST.
-    // If stored as UTC it will be '2026-01-20 18:00:00'.
-    const tsUtcForJst0300 = '2026-01-20 18:00:00'; // UTC representation of 2026-01-21 03:00:00 JST
+  it("returns activities on the local date they were logged, at any time of day", async () => {
+    // Early morning and late evening are where a UTC/local mix-up shifts the date
+    await insertAt("2026-01-21 00:00:00", "midnight");
+    await insertAt("2026-01-21 03:00:00", "early-morning");
+    await insertAt("2026-01-21 23:59:59", "late-evening");
 
-    // Direct DB insert to control the ts value exactly (simulate a UTC timestamp being stored)
-    // @ts-expect-error access private field for test
-    await db['db'].insertInto('activities').values({ type: 'work', content: 'utc-for-jst-0300', ts: tsUtcForJst0300 }).execute();
+    const activities = await db.getActivitiesByDate("2026-01-21");
+    expect(activities.map((a) => a.content)).toEqual(["midnight", "early-morning", "late-evening"]);
 
-    // Act: raw SQL using date(ts) WITHOUT 'localtime' should miss the entry
-    // @ts-expect-error access private field for test
-    const raw = await db['db']
-      .selectFrom('activities')
-      .selectAll()
-      .where(sql`date(ts)`, '=', '2026-01-21')
-      .execute();
+    expect(await db.getActivitiesByDate("2026-01-20")).toHaveLength(0);
+    expect(await db.getActivitiesByDate("2026-01-22")).toHaveLength(0);
+  });
 
-    // raw result should be empty because date(ts) treats ts as UTC here
-    expect(raw.length).toBe(0);
+  it("deletes only activities older than the retention period", async () => {
+    const hour = 60 * 60 * 1000;
+    const now = Date.now();
+    await insertAt(formatLocalTimestamp(new Date(now - 49 * hour)), "expired");
+    await insertAt(formatLocalTimestamp(new Date(now - 47 * hour)), "kept");
 
-    // Also check the public helper which should use localtime-aware query and find the entry
-    const activities = await db.getActivitiesByDate('2026-01-21');
-    expect(activities.length).toBeGreaterThan(0);
+    const deleted = await db.cleanupOldActivities(2);
+    expect(deleted).toBe(1);
+
+    const remaining = await db["db"].selectFrom("activities").select("content").execute();
+    expect(remaining.map((a) => a.content)).toEqual(["kept"]);
   });
 });

@@ -144,8 +144,8 @@ Configure via the `configure` tool or edit `~/.remem/remem.db` directly.
 
 ```bash
 # Clone the repository
-git clone https://github.com/remem-mcp/remem.git
-cd remem
+git clone https://github.com/remem-mcp/mcp-server.git
+cd mcp-server
 
 # Install dependencies
 npm install
