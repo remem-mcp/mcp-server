@@ -144,8 +144,8 @@ Content: アクティビティの説明
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/remem-mcp/remem.git
-cd remem
+git clone https://github.com/remem-mcp/mcp-server.git
+cd mcp-server
 
 # 依存関係をインストール
 npm install

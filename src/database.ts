@@ -118,6 +118,9 @@ export class RememDatabase {
   /**
    * Get activities for a specific date.
    *
+   * `ts` is already stored in local time, so it is compared as-is
+   * (no `'localtime'` conversion, which would shift it a second time).
+   *
    * @param date - Date string in YYYY-MM-DD format (local timezone)
    * @returns Activities recorded on the specified date, ordered by timestamp
    */
@@ -125,16 +128,16 @@ export class RememDatabase {
     return await this.db
       .selectFrom("activities")
       .selectAll()
-      .where(sql`date(ts, 'localtime')`, "=", date)
+      .where(sql`date(ts)`, "=", date)
       .orderBy("ts", "asc")
       .execute();
   }
 
-  /** Delete activities older than specified days */
+  /** Delete activities older than specified days (`ts` is stored in local time) */
   async cleanupOldActivities(retentionDays: number): Promise<number> {
     const result = await this.db
       .deleteFrom("activities")
-      .where(sql<boolean>`datetime(ts, 'localtime') < datetime('now', '-' || ${retentionDays} || ' days', 'localtime')`)
+      .where(sql<boolean>`ts < datetime('now', 'localtime', '-' || ${retentionDays} || ' days')`)
       .executeTakeFirst();
     return Number(result.numDeletedRows);
   }
@@ -155,7 +158,7 @@ export class RememDatabase {
     return await this.db
       .selectFrom("daily_summaries")
       .selectAll()
-      .where(sql<boolean>`date >= date('now', '-' || ${months} || ' months', 'localtime')`)
+      .where(sql<boolean>`date >= date('now', 'localtime', '-' || ${months} || ' months')`)
       .orderBy("date", "asc")
       .execute();
   }
