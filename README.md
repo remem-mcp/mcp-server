@@ -363,6 +363,13 @@ node build/index.js
 node build/index.js ui
 ```
 
+### Releasing
+
+1. Update `version` in `package.json` (and `package-lock.json`) and in `server.json`, and add the changes to `CHANGELOG.md`.
+2. Publish a GitHub release named `vX.Y.Z`.
+
+The release workflow then publishes the package to npm and lists the same version in the [MCP Registry](https://registry.modelcontextprotocol.io/). If only the registry step needs repeating, run the "Publish" workflow by hand from the Actions tab.
+
 ### Tech Stack
 
 - **Runtime**: Node.js 22+

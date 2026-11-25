@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## Unreleased
+
+### Added
+
+- Releases are also listed in the MCP Registry (`server.json`, registry job in the release workflow).
+
 ## 2.0.0
 
 ### Added
