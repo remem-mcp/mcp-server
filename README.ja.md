@@ -363,6 +363,13 @@ node build/index.js
 node build/index.js ui
 ```
 
+### リリース手順
+
+1. `package.json`（および `package-lock.json`）と `server.json` の `version` を更新し、変更内容を `CHANGELOG.md` に追記します。
+2. GitHub で `vX.Y.Z` という名前のリリースを公開します。
+
+リリース用のワークフローが、パッケージを npm に公開し、同じバージョンを [MCP Registry](https://registry.modelcontextprotocol.io/) に登録します。登録の処理だけをやり直す場合は、Actions タブから「Publish」ワークフローを手動で実行してください。
+
 ### 技術スタック
 
 - **ランタイム**: Node.js 22+
