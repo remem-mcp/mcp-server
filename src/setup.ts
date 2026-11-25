@@ -14,7 +14,8 @@ import { dirname, join } from "node:path";
 
 export const SERVER_NAME = "remem";
 export const SERVER_COMMAND = "npx";
-export const SERVER_ARGS = ["-y", "@remem/mcp-server"];
+// "@latest" makes npx check for a new version at each start instead of reusing an old download
+export const SERVER_ARGS = ["-y", "@remem/mcp-server@latest"];
 
 /** Text that identifies a hook installed by Remem */
 const HOOK_MARKER = "@remem/mcp-server";
