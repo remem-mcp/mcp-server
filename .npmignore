@@ -1,6 +1,7 @@
 # Source files (TypeScript)
 src/
 tests/
+scripts/
 
 # Config files
 tsconfig.json

@@ -1,7 +1,8 @@
 {
   "name": "@remem/mcp-server",
-  "version": "1.0.2",
-  "description": "An MCP server for logging daily activities, generating reports, and long-term reflection.",
+  "version": "2.0.0",
+  "mcpName": "io.github.remem-mcp/mcp-server",
+  "description": "An MCP server for logging daily activities, tracking time, generating daily, weekly and monthly reports, and long-term reflection. Includes a local web dashboard.",
   "type": "module",
   "main": "./build/index.js",
   "bin": {
@@ -14,17 +15,21 @@
   "files": [
     "build/**/*.js",
     "build/**/*.json",
-    "README.md"
+    "build/web/public/**",
+    "README.md",
+    "README.ja.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-assets.mjs",
     "watch": "tsc -w",
     "start": "node build/index.js",
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "ui": "node build/index.js ui"
   },
   "keywords": [
     "mcp",
@@ -32,13 +37,16 @@
     "sqlite",
     "productivity",
     "log",
-    "daily-report"
+    "daily-report",
+    "weekly-report",
+    "time-tracking",
+    "dashboard"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.25.2",
-    "better-sqlite3": "^12.6.0",
+    "better-sqlite3": "^12.11.1",
     "i18next": "^27.2.9",
     "kysely": "^0.28.9",
     "zod": "^4.3.5"
@@ -53,6 +61,6 @@
     "vitest": "^5.1.2"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=22.0.0"
   }
 }
