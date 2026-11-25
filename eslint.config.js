@@ -25,6 +25,23 @@ export default tseslint.config(
     },
   },
   {
+    // Dashboard client code runs in the browser
+    files: ["src/web/public/**/*.js"],
+    languageOptions: {
+      sourceType: "module",
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        location: "readonly",
+        fetch: "readonly",
+        URLSearchParams: "readonly",
+        localStorage: "readonly",
+        navigator: "readonly",
+        Intl: "readonly",
+      },
+    },
+  },
+  {
     ignores: ["build/", "node_modules/", "coverage/", "*.config.*"],
   }
 );

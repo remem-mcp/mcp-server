@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Remem Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" id="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header no-print">
+      <p class="app-title" id="app-title">Remem Dashboard</p>
+      <nav id="nav" aria-label="Views">
+        <ul>
+          <li><a href="#/daily" data-view="daily">Daily reports</a></li>
+          <li><a href="#/weekly" data-view="weekly">Weekly reports</a></li>
+          <li><a href="#/monthly" data-view="monthly">Monthly reports</a></li>
+          <li><a href="#/logs" data-view="logs">Activity logs</a></li>
+          <li><a href="#/search" data-view="search">Search</a></li>
+          <li><a href="#/stats" data-view="stats">Statistics</a></li>
+          <li><a href="#/export" data-view="export">Export &amp; print</a></li>
+        </ul>
+      </nav>
+      <div class="language-switch">
+        <label for="language-select" id="language-label">Language</label>
+        <select id="language-select">
+          <option value="ja" lang="ja">日本語</option>
+          <option value="en" lang="en">English</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <h1 id="view-heading" tabindex="-1">Remem Dashboard</h1>
+      <p id="status" class="status no-print" role="status" aria-live="polite"></p>
+      <div id="view"></div>
+      <noscript><p>JavaScript is required to use the Remem dashboard.</p></noscript>
+    </main>
+
+    <footer class="site-footer no-print">
+      <p id="footer-note"></p>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

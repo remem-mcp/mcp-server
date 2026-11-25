@@ -10,15 +10,36 @@ import ja from "./locales/ja.json" with { type: "json" };
 /** Supported languages */
 export type SupportedLanguage = "en" | "ja";
 
-/** Detect language from environment */
-export function detectLanguage(): SupportedLanguage {
-  const lang = process.env.LANG ?? process.env.LANGUAGE ?? "";
-  return lang.startsWith("ja") ? "ja" : "en";
+/** Strings shown by the web dashboard */
+export type UiMessages = typeof en.ui;
+
+/** Locale values that mean "no language configured" */
+const NEUTRAL_LOCALES = new Set(["", "c", "posix"]);
+
+/**
+ * Detect the language to use.
+ *
+ * Order: `REMEM_LANG`, the POSIX locale variables, then the operating system
+ * locale reported by `Intl` (which is what works on Windows, where the POSIX
+ * variables are normally unset).
+ */
+export function detectLanguage(
+  env: NodeJS.ProcessEnv = process.env,
+  systemLocale: string = Intl.DateTimeFormat().resolvedOptions().locale
+): SupportedLanguage {
+  const candidates = [env.REMEM_LANG, env.LC_ALL, env.LC_MESSAGES, env.LANG, env.LANGUAGE, systemLocale];
+  for (const candidate of candidates) {
+    const locale = (candidate ?? "").trim().toLowerCase();
+    if (NEUTRAL_LOCALES.has(locale) || locale.startsWith("c.")) continue;
+    return locale.startsWith("ja") ? "ja" : "en";
+  }
+  return "en";
 }
 
 /** Initialize i18next and return the t function */
 export async function initI18n(lng?: SupportedLanguage): Promise<TFunction> {
-  await i18next.init({
+  const instance = i18next.createInstance();
+  await instance.init({
     lng: lng ?? detectLanguage(),
     fallbackLng: "en",
     interpolation: {
@@ -30,15 +51,10 @@ export async function initI18n(lng?: SupportedLanguage): Promise<TFunction> {
     },
   });
 
-  return i18next.t.bind(i18next);
+  return instance.t.bind(instance);
 }
 
-/** Get the current language */
-export function getCurrentLanguage(): SupportedLanguage {
-  return (i18next.language as SupportedLanguage) ?? "en";
-}
-
-/** Get the t function (after initialization) */
-export function getT(): TFunction {
-  return i18next.t.bind(i18next);
+/** Get the dashboard strings for a language */
+export function getUiMessages(language: SupportedLanguage): UiMessages {
+  return language === "ja" ? ja.ui : en.ui;
 }
