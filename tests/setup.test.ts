@@ -56,8 +56,8 @@ describe("remem setup", () => {
     const env = environment({ claude: {}, codex: {} });
     const first = await runSetup({ clients: ["claude-code", "codex"] }, env);
     expect(first.map((r) => r.status)).toEqual(["added", "added"]);
-    expect(calls).toContain("claude mcp add --transport stdio --scope user remem -- npx -y @remem/mcp-server");
-    expect(calls).toContain("codex mcp add remem -- npx -y @remem/mcp-server");
+    expect(calls).toContain("claude mcp add --transport stdio --scope user remem -- npx -y @remem/mcp-server@latest");
+    expect(calls).toContain("codex mcp add remem -- npx -y @remem/mcp-server@latest");
 
     calls = [];
     const second = await runSetup({ clients: ["claude-code", "codex"] }, env);
@@ -85,7 +85,7 @@ describe("remem setup", () => {
       theme: "dark",
       mcpServers: {
         other: { command: "node", args: ["x.js"] },
-        remem: { command: "npx", args: ["-y", "@remem/mcp-server"] },
+        remem: { command: "npx", args: ["-y", "@remem/mcp-server@latest"] },
       },
     });
     // The previous version is kept
@@ -100,7 +100,7 @@ describe("remem setup", () => {
     mkdirSync(join(home, ".config", "Claude"), { recursive: true });
 
     expect((await runSetup({ clients: ["claude-desktop"] }, env))[0].status).toBe("added");
-    expect(readJson(path)).toEqual({ mcpServers: { remem: { command: "npx", args: ["-y", "@remem/mcp-server"] } } });
+    expect(readJson(path)).toEqual({ mcpServers: { remem: { command: "npx", args: ["-y", "@remem/mcp-server@latest"] } } });
 
     writeFileSync(path, "{ this is not json");
     const [broken] = await runSetup({ clients: ["claude-desktop"] }, env);
@@ -126,7 +126,7 @@ describe("remem setup", () => {
     const [result] = await runSetup({ clients: ["codex"] }, environment());
     expect(result.status).toBe("added");
     expect(readFileSync(path, "utf8")).toBe(
-      'model = "gpt"\n\n[mcp_servers.other]\ncommand = "node"\n\n[mcp_servers.remem]\ncommand = "npx"\nargs = ["-y", "@remem/mcp-server"]\n'
+      'model = "gpt"\n\n[mcp_servers.other]\ncommand = "node"\n\n[mcp_servers.remem]\ncommand = "npx"\nargs = ["-y", "@remem/mcp-server@latest"]\n'
     );
     expect((await runSetup({ clients: ["codex"] }, environment()))[0].status).toBe("exists");
   });
@@ -155,7 +155,7 @@ describe("remem setup", () => {
     expect(settings.hooks.SessionStart).toHaveLength(2);
     expect(settings.hooks.SessionStart[0].hooks[0].command).toBe("echo hi");
     expect(settings.hooks.SessionStart[1]).toMatchObject({ matcher: "startup" });
-    expect(settings.hooks.SessionStart[1].hooks[0].command).toBe("npx -y @remem/mcp-server briefing");
+    expect(settings.hooks.SessionStart[1].hooks[0].command).toBe("npx -y @remem/mcp-server@latest briefing");
     // Session end hooks are cut off quickly unless a timeout is given
     expect(settings.hooks.SessionEnd[0].hooks[0].timeout).toBe(60);
     expect(settings.hooks.SessionEnd[0].hooks[0].command).toContain("import-commits --quiet");

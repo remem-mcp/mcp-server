@@ -1,6 +1,6 @@
 {
   "name": "@remem/mcp-server",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "mcpName": "io.github.remem-mcp/mcp-server",
   "description": "An MCP server for logging daily activities, tracking time, generating daily, weekly and monthly reports, and long-term reflection. Includes a local web dashboard.",
   "type": "module",

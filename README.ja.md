@@ -52,10 +52,12 @@
 
 Remem は MCP に対応したクライアントであれば利用できます。Node.js 22 以降が必要です。
 
+設定例では `@remem/mcp-server@latest` を指定しています。クライアントの起動時に、毎回最新版が使われます。`@latest` を付けない場合、`npx` が以前ダウンロードした古い版を使い続けることがあります。特定の版に固定したい場合は、`@remem/mcp-server@2.0.0` のようにバージョンを指定してください。
+
 ### 1コマンドで設定
 
 ```bash
-npx -y @remem/mcp-server setup
+npx -y @remem/mcp-server@latest setup
 ```
 
 Claude Code、Claude Desktop、Codex のうち、インストールされているものに Remem を登録します。既存の `remem` の設定は上書きせず、ほかの設定もそのまま残し、ファイルを変更する前にバックアップを保存します。`--dry-run` で変更内容の確認だけを行い、`--client claude-code`（または `claude-desktop`、`codex`）で対象を1つに絞れます。設定後はクライアントを再起動してください。
@@ -67,7 +69,7 @@ Claude Code、Claude Desktop、Codex のうち、インストールされてい�
 ### Claude Code
 
 ```bash
-claude mcp add remem -- npx -y @remem/mcp-server
+claude mcp add remem -- npx -y @remem/mcp-server@latest
 ```
 
 ### Claude Desktop
@@ -79,7 +81,7 @@ Claude Desktop の設定ファイルに Remem を追加します。
   "mcpServers": {
     "remem": {
       "command": "npx",
-      "args": ["-y", "@remem/mcp-server"]
+      "args": ["-y", "@remem/mcp-server@latest"]
     }
   }
 }
@@ -98,7 +100,7 @@ Claude Desktop の設定ファイルに Remem を追加します。
 ### Codex
 
 ```bash
-codex mcp add remem -- npx -y @remem/mcp-server
+codex mcp add remem -- npx -y @remem/mcp-server@latest
 ```
 
 または `~/.codex/config.toml` に追加します。
@@ -106,7 +108,7 @@ codex mcp add remem -- npx -y @remem/mcp-server
 ```toml
 [mcp_servers.remem]
 command = "npx"
-args = ["-y", "@remem/mcp-server"]
+args = ["-y", "@remem/mcp-server@latest"]
 ```
 
 ### opencode
@@ -119,7 +121,7 @@ args = ["-y", "@remem/mcp-server"]
   "mcp": {
     "remem": {
       "type": "local",
-      "command": ["npx", "-y", "@remem/mcp-server"],
+      "command": ["npx", "-y", "@remem/mcp-server@latest"],
       "enabled": true
     }
   }
@@ -133,7 +135,7 @@ args = ["-y", "@remem/mcp-server"]
 お使いのクライアントの MCP 設定に、ローカル（stdio）の MCP サーバーとして次の内容を登録してください。
 
 - **コマンド:** `npx`
-- **引数:** `-y`、`@remem/mcp-server`
+- **引数:** `-y`、`@remem/mcp-server@latest`
 
 MCP サーバーの設定場所は、各クライアントのドキュメントをご確認ください。
 
@@ -264,8 +266,8 @@ AIアシスタントは、コマンドや設定の断片をそのままログに
 ブラウザでレポートを確認・編集できます。AIアシスタントに「Rememのダッシュボードを開いて」と依頼するか、次のコマンドで起動します。
 
 ```bash
-npx -y @remem/mcp-server ui            # http://localhost:3939/
-npx -y @remem/mcp-server ui --port 8080
+npx -y @remem/mcp-server@latest ui            # http://localhost:3939/
+npx -y @remem/mcp-server@latest ui --port 8080
 ```
 
 - **日報・週報・月報** — レポートの閲覧、作成、編集（Markdown）、次回の予定の入力、テキストとしてコピー
@@ -289,7 +291,7 @@ npx -y @remem/mcp-server ui --port 8080
 
 ## コマンドライン
 
-`remem` コマンドは、AIアシスタントなしでも使えます。スクリプトやフックからの利用に便利です。`npx -y @remem/mcp-server <コマンド>` で実行します。
+`remem` コマンドは、AIアシスタントなしでも使えます。スクリプトやフックからの利用に便利です。`npx -y @remem/mcp-server@latest <コマンド>` で実行します。
 
 | コマンド | 内容 |
 |----------|------|
@@ -307,7 +309,7 @@ npx -y @remem/mcp-server ui --port 8080
 
 ```sh
 #!/bin/sh
-npx -y @remem/mcp-server import-commits --repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1 &
+npx -y @remem/mcp-server@latest import-commits --repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1 &
 ```
 
 各コミットは1回しか取り込まれないため、繰り返し実行しても問題ありません。

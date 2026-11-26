@@ -52,10 +52,12 @@
 
 Remem works with any MCP client. It needs Node.js 22 or later.
 
+The examples use `@remem/mcp-server@latest`, so the newest version is used each time the client starts. Without `@latest`, `npx` can keep running an older copy it has already downloaded. To stay on one version, write it out instead, for example `@remem/mcp-server@2.0.0`.
+
 ### One command
 
 ```bash
-npx -y @remem/mcp-server setup
+npx -y @remem/mcp-server@latest setup
 ```
 
 This registers Remem with Claude Code, Claude Desktop and Codex, whichever are installed. It never replaces an existing `remem` entry, keeps your other settings, and saves a backup before changing a file. Use `--dry-run` to see what it would do, and `--client claude-code` (or `claude-desktop`, `codex`) to pick one. Restart the client afterwards.
@@ -67,7 +69,7 @@ The sections below describe the same setup by hand.
 ### Claude Code
 
 ```bash
-claude mcp add remem -- npx -y @remem/mcp-server
+claude mcp add remem -- npx -y @remem/mcp-server@latest
 ```
 
 ### Claude Desktop
@@ -79,7 +81,7 @@ Add Remem to your Claude Desktop configuration:
   "mcpServers": {
     "remem": {
       "command": "npx",
-      "args": ["-y", "@remem/mcp-server"]
+      "args": ["-y", "@remem/mcp-server@latest"]
     }
   }
 }
@@ -98,7 +100,7 @@ Add Remem to your Claude Desktop configuration:
 ### Codex
 
 ```bash
-codex mcp add remem -- npx -y @remem/mcp-server
+codex mcp add remem -- npx -y @remem/mcp-server@latest
 ```
 
 Or add it to `~/.codex/config.toml`:
@@ -106,7 +108,7 @@ Or add it to `~/.codex/config.toml`:
 ```toml
 [mcp_servers.remem]
 command = "npx"
-args = ["-y", "@remem/mcp-server"]
+args = ["-y", "@remem/mcp-server@latest"]
 ```
 
 ### opencode
@@ -119,7 +121,7 @@ Add Remem to the `mcp` section of your `opencode.json`:
   "mcp": {
     "remem": {
       "type": "local",
-      "command": ["npx", "-y", "@remem/mcp-server"],
+      "command": ["npx", "-y", "@remem/mcp-server@latest"],
       "enabled": true
     }
   }
@@ -133,7 +135,7 @@ The layout of the `mcp` section differs between opencode versions (newer ones li
 Register a local (stdio) MCP server in your client's MCP settings with:
 
 - **Command:** `npx`
-- **Arguments:** `-y`, `@remem/mcp-server`
+- **Arguments:** `-y`, `@remem/mcp-server@latest`
 
 See your client's documentation for where MCP servers are configured.
 
@@ -264,8 +266,8 @@ AI assistants sometimes paste a command or config snippet into a log. Before any
 Browse and edit your reports in a browser. Ask your AI assistant to "open the Remem dashboard", or start it yourself:
 
 ```bash
-npx -y @remem/mcp-server ui            # http://localhost:3939/
-npx -y @remem/mcp-server ui --port 8080
+npx -y @remem/mcp-server@latest ui            # http://localhost:3939/
+npx -y @remem/mcp-server@latest ui --port 8080
 ```
 
 - **Daily / weekly / monthly reports** — read, write and edit reports (Markdown), set the plan for next time, copy a report as plain text
@@ -289,7 +291,7 @@ The dashboard only listens on your own computer (`127.0.0.1`) and rejects reques
 
 ## Command Line
 
-The `remem` command also works without an AI assistant, which is useful for scripts and hooks. Run it with `npx -y @remem/mcp-server <command>`.
+The `remem` command also works without an AI assistant, which is useful for scripts and hooks. Run it with `npx -y @remem/mcp-server@latest <command>`.
 
 | Command | What it does |
 |---------|--------------|
@@ -307,7 +309,7 @@ Add this Git hook to a repository to record each commit as you make it (`.git/ho
 
 ```sh
 #!/bin/sh
-npx -y @remem/mcp-server import-commits --repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1 &
+npx -y @remem/mcp-server@latest import-commits --repo "$(git rev-parse --show-toplevel)" >/dev/null 2>&1 &
 ```
 
 Each commit is imported once, so running it repeatedly is safe.

@@ -2,7 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
-## Unreleased
+## 2.0.1
+
+### Changed
+
+- `remem setup` and the README examples register `@remem/mcp-server@latest`, so clients pick up new versions instead of reusing an older download. Entries that are already registered are left unchanged; to switch, edit the entry to use `@remem/mcp-server@latest`.
 
 ### Added
 
